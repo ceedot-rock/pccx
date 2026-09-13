@@ -1,0 +1,36 @@
+To: mattmahoneyfl@gmail.com
+Subject: Silesia OSCB update — pulsar 2.5.0 (55,745,438)
+
+SENT 2026-09-02 from ceedotrock@gmail.com
+Gmail message_id: 1a06558be9e4ef83
+Thread: 1a06558be9e4ef83
+
+Follow-up to pulsar-best 2.3.1 (56,654,942, MIT).
+
+Program name on the table: pulsar
+Source: https://github.com/ceedot-rock/pulsar-best
+License: GPL-3.0-or-later (2.4.0+)
+Author: Corey Tasz / Slid Phi Labs
+
+Silesia, 12 files compressed individually. Live re-run 2026-09-03,
+Linux x86_64. DECODE_OK 12/12.
+
+Raw 211,938,580 → 55,745,438 (0.2630).
+
+Mahoney line (KB):
+
+55745438 2834 18110 2596 1764 2950 2844 1331 4699 5150 8678 4307 478  pulsar 2.5.0
+
+Same-host gzip -9: 67,631,990 (beats 12/12).
+Published bzip2-9: 54,506,769 (lose, +1.24M).
+Published xz-6: ~49.4M (lose, +6.3M).
+
+Not a rank claim against paq8px, cmix, or zpaq.
+Combined GC / AWARE are not this source tree.
+
+Do not send another Mahoney line until a live total beats 55,745,438.
+
+Thank you,
+Corey Tasz
+ceedot-rock
+ceedotrock@gmail.com

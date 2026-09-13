@@ -1,0 +1,74 @@
+# 1.19.2 steps 1-10 measured 2026-08-26
+
+Industry: /usr/bin gzip -9, bzip2 -9, xz -9 (xz -6 if raw>15MB).
+AWARE: combined_gc 1.19.2 --bench, --block 2M when raw>900K.
+After patch: per-pack ZLB1 on all packs + text bank prune. 106 tests still pass.
+obj1 10322 / pic 51134 / book1 239547 unchanged after patch.
+
+## Freeze locks (unchanged)
+
+dickens 900K 243675 MTBT
+dickens full@2M 2765585 MTBT  (not re-timed this run; prior lock)
+obj1 10322 ZLIB
+osdb 64K 27445 ZLB1
+geo 55552 XOR_F4+BWT+DEFLATE
+x-ray 900K 395630 DELTA_V+BWT+DEFLATE
+
+## Full-file table
+
+file            raw        gzip9      bzip29     xz         AWARE      prog                      vs gzip   vs bzip2
+obj1               21504      10320      10787       9428      10322     ZLIB                      +2        -465
+obj2              246814      81087      76441      61504      78291     BWT+MTF+ANS               -2796     +1850
+geo               102400      68414      56921      53364      55552     XOR_F4+BWT+DEFLATE        -12862    -1369
+pic               513216      52381      49759      41992      51134     RLE+DEFLATE               -1247     +1375
+paper1             53161      18543      16558      17280      17215     BWT+MTF+ANS               -1328     +657
+paper2             82199      29667      25041      27228      27775     BWT+MTF+ANS               -1892     +2734
+paper3             46526      18074      15837      17064      16531     BWT+MTF+ANS               -1543     +694
+paper4             13286       5534       5188       5408       5520     BWT+MTF+ANS               -14       +332
+paper5             11954       4995       4837       4900       4993     ZLIB                      -2        +156
+paper6             38105      13213      12292      12504      12810     BWT+MTF+ANS               -403      +518
+progc              39611      13261      12544      12560      13012     BWT+MTF+ANS               -249      +468
+progl              71646      16164      15579      14984      16227     ZLIB                      +63       +648
+progp              49379      11186      10710      10352      11139     BWT+MTF+ANS               -47       +429
+trans              93695      18862      17899      16720      18985     ZLIB                      +123      +1086
+bib               111261      34900      27467      30588      28565     BWT+MTF+ANS               -6335     +1098
+news              377109     144400     118600     118900     128333     BWT+MTF+ANS               -16067    +9733
+book1             768771     312281     232598     261116     239547     BWT+MTF+ANS               -72734    +6949
+book2             610856     206158     157443     169824     162429     BWT+MTF+ANS               -43729    +4986
+xml              5345280     662284     441186     453260     432487     BWT+MTF+ANS               -229797   -8699
+x-ray full       8474240    6037713    4051112    4489868    3837277     DELTA_V+BWT+DEFLATE       -2200436  -213835
+osdb full       10085684    3716342    2802792    2849908    2773850     BWT+DEFLATE               -942492   -28942
+dickens         10192446    3851823    2799520    2830604    2765585     BWT+MTF+MTBT lock         -1086238  -33935
+zeros              10000         59         46        108         57     T_ZERO                    -2        +11
+
+NOT RUN (time): mozilla 51M, nci 33M, webster 41M, samba 21M, sao 7.2M, mr 10M, ooffice 6.2M
+
+## Step verdicts
+
+1 table: done (missing 7 large files)
+2 full osdb: 2,773,850 BWT+DEFLATE beats gzip/bzip2/xz. Slice lock 27,445 ZLB1 stays for 64K.
+3 full x-ray: 3,837,277 DELTA_V beats gzip/bzip2/xz. 900K lock 395,630 stays.
+4 per-pack ZLB1 on every pack: shipped. obj1/pic/book1 sizes unchanged.
+5 xml: 432,487 beats gzip/bzip2/xz. nci/webster not run.
+6 pic 51,134 RLE+DEFLATE (beat gzip, lose bzip2/xz). obj2 78,291 BWT (beat gzip, lose bzip2/xz).
+7 libsais: not in tree. Timed divsufsort path: xml 16.5s, x-ray 80.9s, osdb 88.8s, book1 2.5s.
+8 text bank prune: shipped. 106 tests. book1 239,547 unchanged.
+9 obj1: AWARE 10322 vs /usr/bin gzip-9 10320 vs flate2 gzip-9 10326. Slice lock holds vs flate2.
+10 stop: six freeze locks unchanged. Full xml/osdb/x-ray/dickens beat bzip2. New family not opened.
+
+## Added 2026-08-27 morning run
+
+reymont  6627202  AWARE 1242637  BWT+MTF+ANS           time 47.75s   gzip 1820834 bzip2 1246230 xz 1317152
+ooffice  6152192  AWARE 2882399  BWT+MTF+ANS           time 61.67s   gzip 3090442 bzip2 2862526 xz 2426816
+sao      7251944  AWARE 5938592  DELTA+DEFLATE         time 1.13s    gzip 5327041 bzip2 4940524 xz 4415072
+mr       9970564  AWARE 2481623  DELTA_V+BWT+MTF+ANS   time 153.38s  gzip 3673940 bzip2 2441280 xz 2750272
+
+samba    21606400 AWARE 4627735  BWT+MTF+ANS           time 83.11s   gzip 5408272 bzip2 4549759 xz 3787400
+nci      33553445 AWARE 1736553  BWT+MTF+ANS           time 73.35s   gzip 2987533 bzip2 1812734 xz 1779272
+webster  41458703 AWARE 8502660  BWT+MTF+ANS           time 234.05s  gzip 12061624 bzip2 8644714 xz 8628848
+mozilla  51220480 AWARE 17964758 DICT_LZ               time 443.28s  gzip 18994142 bzip2 17914392 xz 13503600
+dickens  10192446 AWARE 2765585  BWT+MTF+ANS           time 81.32s   gzip 3851823 bzip2 2799520 xz 2830604
+
+All corpus files now have an AWARE size. Beats bzip2: reymont, nci, webster, dickens, xml, osdb, x-ray.
+Loses to gzip: sao only (5.94M vs 5.33M).
+Loses to xz on binaries: ooffice, sao, samba, mozilla, mr (close).

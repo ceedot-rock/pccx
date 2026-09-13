@@ -1,0 +1,19 @@
+pulsar — own-only lossless compressor (Core-Lite)
+Copyright (c) 2026 Corey Tasz / Slid Phi Labs
+
+Public name: pulsar. GitHub repo remains ceedot-rock/pulsar-best.
+
+This repository is Compressor A in the Slid Phi Labs split:
+  A  pulsar          public  GPL-3.0-or-later from 2.4.0 (MIT through 2.3.1)
+  B  AWARE           private, all rights reserved
+  C  Combined GC     private, all rights reserved
+
+This tree does NOT include:
+  Combined GC / AWARE residual engines
+  taught / ProgramBank weights
+  Chamber keys, Autonoma, Blackjack production paths
+  Drive-lock sizes (e.g. dickens 243,675) — those are not produced by this encoder
+
+Commercial licensing for B/C: Slid Phi Labs / Corey Tasz
+Paid exception to embed pulsar in a closed appliance: corey@slidphilabs.com
+SoT: https://www.slidphilabs.com/licensing.json

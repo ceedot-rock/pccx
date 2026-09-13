@@ -1,0 +1,101 @@
+{
+  "mozilla": {
+    "zip_path": "/mnt/data/file2432506992105867766.bin",
+    "zip_entry": "mozilla",
+    "raw_size": 51220480,
+    "compressed_size": 18994116
+  },
+  "webster": {
+    "zip_path": "/mnt/data/file9103082455003698159.bin",
+    "zip_entry": "webster",
+    "raw_size": 41458703,
+    "compressed_size": 12061598
+  },
+  "nci": {
+    "zip_path": "/mnt/data/file5033940409054833260.bin",
+    "zip_entry": "nci",
+    "raw_size": 33553445,
+    "compressed_size": 2987511
+  },
+  "samba": {
+    "zip_path": "/mnt/data/file5033940409054833260.bin",
+    "zip_entry": "samba",
+    "raw_size": 21606400,
+    "compressed_size": 5408248
+  },
+  "dickens": {
+    "zip_path": "/mnt/data/file8653621517391542933.bin",
+    "zip_entry": "dickens",
+    "raw_size": 10192446,
+    "compressed_size": 3851797
+  },
+  "osdb": {
+    "zip_path": "/mnt/data/file8653621517391542933.bin",
+    "zip_entry": "osdb",
+    "raw_size": 10085684,
+    "compressed_size": 3716319
+  },
+  "mr": {
+    "zip_path": "/mnt/data/file8653621517391542933.bin",
+    "zip_entry": "mr",
+    "raw_size": 9970564,
+    "compressed_size": 3673919
+  },
+  "x-ray": {
+    "zip_path": "/mnt/data/file8653621517391542933.bin",
+    "zip_entry": "x-ray",
+    "raw_size": 8474240,
+    "compressed_size": 6037689
+  },
+  "sao": {
+    "zip_path": "/mnt/data/file8653621517391542933.bin",
+    "zip_entry": "sao",
+    "raw_size": 7251944,
+    "compressed_size": 5327019
+  },
+  "reymont": {
+    "zip_path": "/mnt/data/file8653621517391542933.bin",
+    "zip_entry": "reymont",
+    "raw_size": 6627202,
+    "compressed_size": 1820808
+  },
+  "ooffice": {
+    "zip_path": "/mnt/data/file8653621517391542933.bin",
+    "zip_entry": "ooffice",
+    "raw_size": 6152192,
+    "compressed_size": 3090416
+  },
+  "xml": {
+    "zip_path": "/mnt/data/file8653621517391542933.bin",
+    "zip_entry": "xml",
+    "raw_size": 5345280,
+    "compressed_size": 662262
+  },
+  "__locks__": {
+    "dickens": 2765585,
+    "xml": 432487,
+    "nci": 1736553,
+    "webster": 8502660,
+    "reymont": 1242637,
+    "osdb": 2773850,
+    "x-ray": 3837277,
+    "mr": 2481623,
+    "ooffice": 2426824,
+    "sao": 4415080,
+    "samba": 3763624,
+    "mozilla": 13374168,
+    "dickens_900K": 243675,
+    "obj1": 10322,
+    "osdb_64K": 27445,
+    "geo": 55552,
+    "x-ray_900K": 395630
+  },
+  "__total_raw__": 211938580,
+  "__version__": "2.0.4-OZL2",
+  "__tags__": [
+    "ZRW",
+    "ZLB1",
+    "OZL2",
+    "AWAREv6"
+  ]
+}

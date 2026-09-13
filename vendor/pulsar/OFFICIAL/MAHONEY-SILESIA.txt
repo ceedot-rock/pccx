@@ -1,0 +1,50 @@
+Silesia Open Source Compression Benchmark — submitted
+https://mattmahoney.net/dc/silesia.html
+
+Program: pulsar
+Source:  https://github.com/ceedot-rock/pulsar-best
+License: GPL-3.0-or-later (2.4.0+). 2.3.1 and earlier were MIT.
+Author:  Corey Tasz (ceedot-rock / Slid Phi Labs)
+Host:    Linux x86_64
+Corpus:  Silesia 12 files, compressed individually
+Raw:     211938580 bytes
+
+Submitted to Matt Mahoney 2026-09-02
+  to: mattmahoneyfl@gmail.com
+  from: ceedotrock@gmail.com
+  subject: Silesia OSCB update — pulsar 2.5.0 (55,745,438)
+  gmail message_id: 1a06558be9e4ef83
+
+Public table name is pulsar, never pulsar-best.
+Do not send another line until a live total beats 55,745,438.
+
+Live re-run (2.5.0, 2026-09-03, DECODE_OK 12/12):
+
+  xml      5345280 ->    478360
+  ooffice  6152192 ->   2950568
+  reymont  6627202 ->   1331009
+  sao      7251944 ->   5150474
+  x-ray    8474240 ->   4307052
+  mr       9970564 ->   2596170
+  osdb    10085684 ->   2844929
+  dickens 10192446 ->   2834360
+  samba   21606400 ->   4699263
+  nci     33553445 ->   1764304
+  webster 41458703 ->   8678436
+  mozilla 51220480 ->  18110513
+  TOTAL  211938580 ->  55745438
+
+Mahoney table line:
+
+55745438 2834 18110 2596 1764 2950 2844 1331 4699 5150 8678 4307 478  pulsar 2.5.0
+
+Same-host gzip -9: 67,631,990.
+Published: bzip2-9 54,506,769; xz -6 ~49.4M.
+
+Beats gzip 12/12. Loses to bzip2 (+1.24M). Loses to xz (+6.3M).
+Not a rank claim against paq8px / cmix / zpaq.
+
+Build:
+  cargo build --release
+  ./target/release/pulsar encode IN -o OUT
+  ./target/release/pulsar decode OUT -o BACK

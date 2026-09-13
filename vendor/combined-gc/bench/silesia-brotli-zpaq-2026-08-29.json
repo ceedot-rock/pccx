@@ -1,0 +1,182 @@
+{
+  "measured_at": "2026-08-29T13:50:38Z",
+  "host": "Penguin / Host Grok",
+  "corpus": "official Silesia https://sun.aei.polsl.pl/~sdeor/corpus/silesia.zip",
+  "raw_total": 211938580,
+  "n_files": 12,
+  "tools": {
+    "brotli": {
+      "version": "1.1.0",
+      "flags": "-q 11",
+      "status": "complete",
+      "total": 49564563
+    },
+    "zpaq": {
+      "version": "7.15",
+      "flags": "-m5 separate archives",
+      "status": "complete",
+      "total": 39112912
+    }
+  },
+  "reference": {
+    "AWARE_1.19.2_XZ1": 47752368,
+    "xz-9": 48795480,
+    "zstd-19": 53024573,
+    "bzip2-9": 54506769,
+    "zstd-3": 66547664,
+    "gzip-9": 67631990
+  },
+  "brotli_q11": [
+    {
+      "file": "dickens",
+      "raw": 10192446,
+      "bytes": 2827777,
+      "seconds": 76.236
+    },
+    {
+      "file": "mozilla",
+      "raw": 51220480,
+      "bytes": 13872265,
+      "seconds": 784.05
+    },
+    {
+      "file": "mr",
+      "raw": 9970564,
+      "bytes": 2823136,
+      "seconds": 66.456
+    },
+    {
+      "file": "nci",
+      "raw": 33553445,
+      "bytes": 1519768,
+      "seconds": 151.477
+    },
+    {
+      "file": "ooffice",
+      "raw": 6152192,
+      "bytes": 2478855,
+      "seconds": 40.928
+    },
+    {
+      "file": "osdb",
+      "raw": 10085684,
+      "bytes": 2816278,
+      "seconds": 54.212
+    },
+    {
+      "file": "reymont",
+      "raw": 6627202,
+      "bytes": 1332158,
+      "seconds": 35.142
+    },
+    {
+      "file": "samba",
+      "raw": 21606400,
+      "bytes": 3766340,
+      "seconds": 98.65
+    },
+    {
+      "file": "sao",
+      "raw": 7251944,
+      "bytes": 4586092,
+      "seconds": 59.05
+    },
+    {
+      "file": "webster",
+      "raw": 41458703,
+      "bytes": 8428575,
+      "seconds": 222.707
+    },
+    {
+      "file": "xml",
+      "raw": 5345280,
+      "bytes": 430566,
+      "seconds": 23.68
+    },
+    {
+      "file": "x-ray",
+      "raw": 8474240,
+      "bytes": 4682753,
+      "seconds": 66.345
+    }
+  ],
+  "zpaq_m5": [
+    {
+      "file": "dickens",
+      "raw": 10192446,
+      "bytes": 2094774,
+      "seconds": 95.674
+    },
+    {
+      "file": "mozilla",
+      "raw": 51220480,
+      "bytes": 12041086,
+      "seconds": 1025.528
+    },
+    {
+      "file": "mr",
+      "raw": 9970564,
+      "bytes": 2181336,
+      "seconds": 76.104
+    },
+    {
+      "file": "nci",
+      "raw": 33553445,
+      "bytes": 1251135,
+      "seconds": 198.599
+    },
+    {
+      "file": "ooffice",
+      "raw": 6152192,
+      "bytes": 1766581,
+      "seconds": 65.7
+    },
+    {
+      "file": "osdb",
+      "raw": 10085684,
+      "bytes": 2204769,
+      "seconds": 91.384
+    },
+    {
+      "file": "reymont",
+      "raw": 6627202,
+      "bytes": 956530,
+      "seconds": 77.576
+    },
+    {
+      "file": "samba",
+      "raw": 21606400,
+      "bytes": 3053849,
+      "seconds": 15076.184
+    },
+    {
+      "file": "sao",
+      "raw": 7251944,
+      "bytes": 3899285,
+      "seconds": 102.769
+    },
+    {
+      "file": "webster",
+      "raw": 41458703,
+      "bytes": 5666863,
+      "seconds": 3112.896
+    },
+    {
+      "file": "xml",
+      "raw": 5345280,
+      "bytes": 326974,
+      "seconds": 50.622
+    },
+    {
+      "file": "x-ray",
+      "raw": 8474240,
+      "bytes": 3669730,
+      "seconds": 13320.757
+    }
+  ],
+  "notes": [
+    "zpaq-m5 corpus total 39,112,912 is smaller than AWARE 47,752,368. Say so. zpaq is the max reference compressor and was slow (x-ray 13321s, samba 15076s).",
+    "AWARE still smaller than xz-9, brotli-11, zstd-19, gzip-9 on this corpus.",
+    "Gate is not in this table. Not a universal #1 claim."
+  ]
+}

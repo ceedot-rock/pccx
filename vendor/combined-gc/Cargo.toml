@@ -1,0 +1,27 @@
+[package]
+name = "combined-gc"
+version = "1.20.0"
+edition = "2021"
+description = "SlidPhiLabs Combined GC codec — fast zlib/xz default, --max BWT bake-off"
+license = "AGPL-3.0-or-later"
+publish = false
+
+[features]
+default = []
+experimental = []
+cm = []
+
+[[bin]]
+name = "combined_gc"
+path = "src/bin/combined_gc.rs"
+
+[dependencies]
+xxhash-rust = { version = "=0.8.10", features = ["xxh3"] }
+clap = { version = "=4.4.18", features = ["derive"] }
+flate2 = { version = "=1.0.28", default-features = false, features = ["zlib-ng"] }
+anyhow = "=1.0.86"
+divsufsort = "=2.0.0"
+
+[profile.release]
+lto = false
+codegen-units = 1

@@ -1,0 +1,8 @@
+combined-gc 1.19.2-combined-gc  file=/home/workdir/artifacts/corpora/mozilla  raw=51220480
+Gate: Binary entropy=6.222 printable=0.35 zero_runs=4944813 delta_var=9621.583 weights=[0.33, 0.33, 0.33, 0.33, 0.33]
+AWARE 1.19.2-combined-gc  type=Float H=6.222  51220480 -> 17964758  program=DICT_LZ
+Cont-1088 cont1088-v3-full-silesia-2026-08-26 bin=826/1088 trained=true coder=DEFLATE q=1 E=41.868 dens=2.500 Block
+gzip-9 19031985
+AWARE/raw 0.351  AWARE vs gzip-9 -5.6%
+honest: table cont1088-v3-full-silesia 13151 windows zlib-9; not a 21.4% dickens claim
+time 443.28

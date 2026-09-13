@@ -1,0 +1,19 @@
+pulsar — Silesia own-only
+
+Public name: pulsar
+Repo: https://github.com/ceedot-rock/pulsar-best
+License: GPL-3.0-or-later from 2.4.0 (MIT through 2.3.1)
+
+Official OSCB packet emailed to Matt Mahoney 2026-09-02
+(gmail 1a06558be9e4ef83). encode.su forum post not sent from this run.
+
+Live 2.5.0 (2026-09-03), DECODE_OK 12/12:
+55745438 2834 18110 2596 1764 2950 2844 1331 4699 5150 8678 4307 478  pulsar 2.5.0
+
+Exact: 55,745,438 / 211,938,580 (0.2630).
+gzip-9 67,631,990 (12/12 win).
+bzip2-9 54,506,769 (lose, +1.24M).
+xz-6 ~49.4M (lose, +6.3M).
+
+Not a claim vs paq8px / cmix / zpaq.
+Combined GC / AWARE are not this crate.

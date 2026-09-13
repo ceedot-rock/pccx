@@ -1,0 +1,8 @@
+combined-gc 1.19.2-combined-gc  file=/home/workdir/artifacts/corpora/dickens  raw=10192446
+Gate: Text entropy=4.532 printable=0.96 zero_runs=0 delta_var=2084.374 weights=[0.15, 0.15, 0.1, 0.7, 0.1]
+AWARE 1.19.2-combined-gc  type=Json H=4.532  10192446 -> 2765585  program=BWT16K+MTF+ANS
+Cont-1088 cont1088-v3-full-silesia-2026-08-26 bin=725/1088 trained=true coder=DEFLATE q=1 E=32.151 dens=2.500 Block
+gzip-9 3859120
+AWARE/raw 0.271  AWARE vs gzip-9 -28.3%
+honest: table cont1088-v3-full-silesia 13151 windows zlib-9; not a 21.4% dickens claim
+time 81.32
