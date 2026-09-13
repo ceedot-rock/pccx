@@ -2,7 +2,7 @@
 name = "pccx"
 version = "0.3.0"
 edition = "2021"
-license = "UNLICENSED"
+license = "AGPL-3.0-or-later"
 publish = false
 description = "PCCX closed crate. Pulsar + Combined GC in-tree. PCC1 frame."
 
