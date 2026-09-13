@@ -1,0 +1,15 @@
+[package]
+name = "pccx"
+version = "0.2.0"
+edition = "2021"
+license = "UNLICENSED"
+publish = false
+description = "PCCX closed crate. One codec. PCC1 frame."
+
+[[bin]]
+name = "pccx"
+path = "src/bin/pccx.rs"
+
+[profile.release]
+lto = "thin"
+opt-level = 3

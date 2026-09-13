@@ -1,31 +1,16 @@
-# PCCX 0.1.0
+# PCCX 0.2.0 — closed crate
 
-Lab house picker. One face: `lb pcc` writes **PCC1**.
+One package. No lbr1 overlay. No pulsar path-dep. No Combined GC sibling.
 
-Seats inside that frame:
-- pulsar BWT
-- LBR1 MATCH (champ pack included in try_match)
-- Combined GC own-path as `Op::Aware` (host gzip/xz/bz dropped)
-- CMAQ / LZ only when the winner is still weak
+```
+cargo test --release
+cargo build --release --bin pccx
+./target/release/pccx encode IN OUT
+./target/release/pccx decode IN OUT
+```
 
-## Routing
+PCC1 v2. Seats in this crate: ZERO, MATCH (own hash-chain LZ), STORE.
+Handshake: encode only emits if decode(blob) == raw.
 
-- **Text** (Autonoma primary = BWT): BWT and GC both bid. MATCH only if ratio still > 0.35.
-- **Binary**: MATCH (+ delta). GC/BWT only if weak and file ≤ 2 MiB.
-
-Build on top of `ceedot-rock/lbr1` + `pulsar-best` + Combined GC sibling. Overlay `overlay/pcc.rs` onto `splb/src/pcc.rs`. Default feature `aware`.
-
-## Measured this freeze (DECODE_OK)
-
-| file | raw | PCCX | op |
-|---|---:|---:|---|
-| reymont | 6,627,202 | 1,242,663 | aware |
-| ooffice | 6,152,192 | 2,665,306 | match |
-
-ooffice official pcc-0.12.1 was 2,670,536 (−5,230 on this binary).
-
-Not a 12-file total. mozilla not run on this tag.
-
-## Version
-
-0.1.0
+This is not the 51.5M PCC board. That board is the multi-crate lab stack.
+This crate is the closed one-package codec.
