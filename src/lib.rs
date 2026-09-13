@@ -1,6 +1,6 @@
-//! PCCX 0.2.0 — closed crate. One package. PCC1 on the wire.
+//! PCCX 0.3.0 — closed crate. PCC1. Pulsar BWT + Combined GC in-tree.
 
-pub const VERSION: &str = "pccx-0.2.0";
+pub const VERSION: &str = "pccx-0.3.0";
 pub const MAGIC: &[u8; 4] = b"PCC1";
 pub const VER: u8 = 2;
 
@@ -9,7 +9,9 @@ pub const VER: u8 = 2;
 pub enum Op {
     Zero = 0,
     Match = 1,
+    Bwt = 2,
     Store = 3,
+    Aware = 12,
 }
 
 pub fn version() -> &'static str {
@@ -78,7 +80,7 @@ fn lz_tokens(data: &[u8]) -> Vec<u8> {
             out.extend_from_slice(&(best_d as u32).to_le_bytes());
             for k in 1..best_l {
                 if i + k + 3 < n {
-                    let h = u32::from_le_bytes([data[i+k], data[i+k+1], data[i+k+2], data[i+k+3]]) as usize % H;
+                    let h = u32::from_le_bytes([data[i + k], data[i + k + 1], data[i + k + 2], data[i + k + 3]]) as usize % H;
                     prev[i + k] = head[h];
                     head[h] = (i + k) as i32;
                 }
@@ -94,40 +96,60 @@ fn lz_tokens(data: &[u8]) -> Vec<u8> {
 }
 
 fn lz_detok(buf: &[u8]) -> Result<Vec<u8>, &'static str> {
-    if buf.len() < 4 { return Err("lz"); }
+    if buf.len() < 4 {
+        return Err("lz");
+    }
     let n = u32::from_le_bytes(buf[0..4].try_into().unwrap()) as usize;
     let mut i = 4usize;
     let mut out = Vec::with_capacity(n);
     while out.len() < n {
-        if i >= buf.len() { return Err("lz trunc"); }
+        if i >= buf.len() {
+            return Err("lz trunc");
+        }
         match buf[i] {
             0 => {
                 i += 1;
-                if i >= buf.len() { return Err("lz lit"); }
+                if i >= buf.len() {
+                    return Err("lz lit");
+                }
                 out.push(buf[i]);
                 i += 1;
             }
             1 => {
                 i += 1;
-                if i + 5 > buf.len() { return Err("lz m"); }
+                if i + 5 > buf.len() {
+                    return Err("lz m");
+                }
                 let len = buf[i] as usize;
                 i += 1;
-                let d = u32::from_le_bytes(buf[i..i+4].try_into().unwrap()) as usize;
+                let d = u32::from_le_bytes(buf[i..i + 4].try_into().unwrap()) as usize;
                 i += 4;
-                if d == 0 || d > out.len() { return Err("lz dist"); }
-                for _ in 0..len { out.push(out[out.len() - d]); }
+                if d == 0 || d > out.len() {
+                    return Err("lz dist");
+                }
+                for _ in 0..len {
+                    out.push(out[out.len() - d]);
+                }
             }
             _ => return Err("lz op"),
         }
     }
-    if out.len() != n { return Err("lz n"); }
+    if out.len() != n {
+        return Err("lz n");
+    }
     Ok(out)
 }
 
 fn solid(data: &[u8]) -> Option<u8> {
-    if data.is_empty() { return None; }
+    if data.is_empty() {
+        return None;
+    }
     let s = data[0];
-    if data.iter().all(|&b| b == s) { Some(s) } else { None }
+    if data.iter().all(|&b| b == s) {
+        Some(s)
+    } else {
+        None
+    }
 }
 
 fn pack(raw_len: u32, crc: u32, op: Op, blob: &[u8]) -> Vec<u8> {
@@ -144,21 +166,45 @@ fn pack(raw_len: u32, crc: u32, op: Op, blob: &[u8]) -> Vec<u8> {
 }
 
 pub fn encode(data: &[u8]) -> Option<Vec<u8>> {
-    if data.is_empty() { return None; }
+    if data.is_empty() {
+        return None;
+    }
     let crc = crc32(data);
     let mut best_op = Op::Store;
     let mut best = data.to_vec();
     if let Some(s) = solid(data) {
         let b = vec![s];
-        if b.len() < best.len() { best_op = Op::Zero; best = b; }
+        if b.len() < best.len() {
+            best_op = Op::Zero;
+            best = b;
+        }
     }
     let lz = lz_tokens(data);
-    if lz.len() < best.len() { best_op = Op::Match; best = lz; }
+    if lz.len() < best.len() {
+        best_op = Op::Match;
+        best = lz;
+    }
+    let bwt = pulsar::bwt_ans::compress(data);
+    if bwt.len() < best.len() {
+        best_op = Op::Bwt;
+        best = bwt;
+    }
+    let gc = combined_gc::frame::compress(data).bytes;
+    let foreign = (gc.len() >= 2 && gc.starts_with(&[0x1f, 0x8b]))
+        || (gc.len() >= 4 && (gc.starts_with(b"XZ1\0") || gc.starts_with(b"ZLB1") || gc.starts_with(b"BZh")));
+    if !foreign && gc.len() < best.len() {
+        if combined_gc::frame::decompress(&gc).ok().as_deref() == Some(data) {
+            best_op = Op::Aware;
+            best = gc;
+        }
+    }
     if best.len() >= data.len() && best_op != Op::Zero {
-        best_op = Op::Store;
-        best = data.to_vec();
+        return None;
     }
     let out = pack(data.len() as u32, crc, best_op, &best);
+    if out.len() >= data.len() {
+        return None;
+    }
     match decode(&out) {
         Ok(back) if back == data => Some(out),
         _ => None,
@@ -166,23 +212,45 @@ pub fn encode(data: &[u8]) -> Option<Vec<u8>> {
 }
 
 pub fn decode(buf: &[u8]) -> Result<Vec<u8>, &'static str> {
-    if !is_pccx(buf) { return Err("pccx"); }
+    if !is_pccx(buf) {
+        return Err("pccx");
+    }
     let raw_len = u32::from_le_bytes(buf[5..9].try_into().unwrap()) as usize;
     let crc = u32::from_le_bytes(buf[9..13].try_into().unwrap());
     let nb = u32::from_le_bytes(buf[13..17].try_into().unwrap());
-    if nb != 1 { return Err("pccx blocks"); }
+    if nb != 1 {
+        return Err("pccx blocks");
+    }
     let op = buf[17];
     let bl = u32::from_le_bytes(buf[22..26].try_into().unwrap()) as usize;
-    if 26 + bl != buf.len() { return Err("pccx len"); }
+    if 26 + bl != buf.len() {
+        return Err("pccx len");
+    }
     let blob = &buf[26..];
     let out = match op {
-        0 => { if blob.len() != 1 { return Err("zero"); } vec![blob[0]; raw_len] }
+        0 => {
+            if blob.len() != 1 {
+                return Err("zero");
+            }
+            vec![blob[0]; raw_len]
+        }
         1 => lz_detok(blob)?,
-        3 => { if blob.len() != raw_len { return Err("store"); } blob.to_vec() }
+        2 => pulsar::bwt_ans::decompress(blob).map_err(|_| "bwt")?,
+        12 => combined_gc::frame::decompress(blob)?,
+        3 => {
+            if blob.len() != raw_len {
+                return Err("store");
+            }
+            blob.to_vec()
+        }
         _ => return Err("op"),
     };
-    if out.len() != raw_len { return Err("n"); }
-    if crc32(&out) != crc { return Err("crc"); }
+    if out.len() != raw_len {
+        return Err("n");
+    }
+    if crc32(&out) != crc {
+        return Err("crc");
+    }
     Ok(out)
 }
 
