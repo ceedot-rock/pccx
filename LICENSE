@@ -1,0 +1,24 @@
+PCCX dual license
+==================
+
+Copyright (c) 2026 Corey Tasz / Slid Phi Labs
+
+You may use this repository under either:
+
+1. GNU Affero General Public License v3.0 or later
+   https://www.gnu.org/licenses/agpl-3.0.html
+   Full text: LICENSE.AGPL-3.0 (if present) or the URL above.
+
+2. A paid written commercial exception from Slid Phi Labs.
+   See COMMERCIAL.md.
+   Contact: corey@slidphilabs.com
+   SoT: https://www.slidphilabs.com/licensing.json
+
+Default public grant is AGPL-3.0-or-later.
+Closed-source shipping, SaaS that does not offer corresponding source,
+or dropping the AGPL obligations requires the commercial grant.
+
+vendor/pulsar is GPL-3.0-or-later (see that tree).
+vendor/combined-gc remains lab dual/UNLICENSED until a grant is written;
+visibility of this repo is not a grant to ship Combined GC inside a
+proprietary compressor without (1) or (2).
