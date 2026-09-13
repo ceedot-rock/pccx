@@ -1,10 +1,10 @@
 [package]
 name = "pccx"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 license = "UNLICENSED"
 publish = false
-description = "PCCX closed crate. One codec. PCC1 frame."
+description = "PCCX closed crate. Pulsar + Combined GC in-tree. PCC1 frame."
 
 [[bin]]
 name = "pccx"
@@ -13,3 +13,7 @@ path = "src/bin/pccx.rs"
 [profile.release]
 lto = "thin"
 opt-level = 3
+
+[dependencies]
+pulsar = { path = "vendor/pulsar" }
+combined-gc = { path = "vendor/combined-gc" }

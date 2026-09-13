@@ -1,16 +1,17 @@
-# PCCX 0.2.0 — closed crate
+# PCCX 0.3.0
 
-One package. No lbr1 overlay. No pulsar path-dep. No Combined GC sibling.
+Closed crate. PCC1. In-tree engines:
+
+- `vendor/pulsar` — BW23
+- `vendor/combined-gc` — AWARE own-path
 
 ```
-cargo test --release
+./vendor.sh
+cargo test --release --lib
 cargo build --release --bin pccx
 ./target/release/pccx encode IN OUT
-./target/release/pccx decode IN OUT
 ```
 
-PCC1 v2. Seats in this crate: ZERO, MATCH (own hash-chain LZ), STORE.
-Handshake: encode only emits if decode(blob) == raw.
+Encode never emits a blob ≥ raw. Seats: ZERO, MATCH (own LZ), BWT, AWARE. Host gzip/xz/bz dropped.
 
-This is not the 51.5M PCC board. That board is the multi-crate lab stack.
-This crate is the closed one-package codec.
+256 KiB vs gzip-9 (DECODE_OK): dickens 81305 / 98593 · ooffice 139122 / 142495 · reymont 56555 / 72353 · osdb 88199 / 98799 · mr 59099 / 79021.
