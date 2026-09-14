@@ -17,6 +17,6 @@ cargo build --release --bin pccx
 
 Encode never emits a blob ≥ raw. Seats: ZERO, MATCH, BWT, AWARE. Host gzip/xz/bz dropped.
 
-256 KiB vs gzip-9 (DECODE_OK): dickens 81305 / 98593 · ooffice 139122 / 142495 · reymont 56555 / 72353 · osdb 88199 / 98799 · mr 59099 / 79021.
+256 KiB vs gzip-9 / bzip2-9 (DECODE_OK): see [SILESIA.md](SILESIA.md). dickens 78269 / 98593 / 77252.
 
 Not an OSCB table row until a tagged rebuild matches the board.
